@@ -1,17 +1,35 @@
+import React, { useLayoutEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { contatos } from '../data/contatos';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ListaContatosScreen({ navigation }) {
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: 'Lista de Contatos',
+      headerTitleAlign: 'center',
+      headerStyle: {
+        backgroundColor: '#3F6FD8',
+      },
+      headerTintColor: '#FFF',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerRight: () => (
+        <Ionicons
+          name="add"
+          size={26}
+          color="#FFF"
+          style={{ marginRight: 15 }}
+          onPress={() => navigation.navigate('CadastroContato')}
+        />
+      ),
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
-
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate('CadastroContato')}
-      >
-        <Text style={styles.addText}>+ Novo Contato</Text>
-      </TouchableOpacity>
-
       <FlatList
         data={contatos}
         keyExtractor={(item) => item.id.toString()}
@@ -22,10 +40,17 @@ export default function ListaContatosScreen({ navigation }) {
               navigation.navigate('EditarContato', { contato: item })
             }
           >
-            <Text style={styles.nome}>{item.nome}</Text>
-            <Text style={styles.telefone}>{item.telefone}</Text>
+            <View style={styles.avatar}>
+              <Ionicons name="person" size={30} color="#FFF" />
+            </View>
+
+            <View style={styles.info}>
+              <Text style={styles.nome}>{item.nome}</Text>
+              <Text style={styles.telefone}>{item.telefone}</Text>
+            </View>
           </TouchableOpacity>
         )}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
     </View>
   );
@@ -35,31 +60,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F2F2F2',
-    padding: 15,
-  },
-  addButton: {
-    backgroundColor: '#2F80ED',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  addText: {
-    color: '#FFF',
-    fontWeight: 'bold',
   },
   card: {
-    backgroundColor: '#FFF',
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 15,
-    borderRadius: 12,
-    marginBottom: 10,
-    elevation: 3,
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#4F81D8',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  info: {
+    flex: 1,
   },
   nome: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#333',
   },
   telefone: {
-    color: 'gray',
+    color: '#555',
+    marginTop: 3,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#DADADA',
+    marginLeft: 80,
   },
 });
