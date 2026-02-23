@@ -1,38 +1,63 @@
-import { View, Text, TextInput, Button } from 'react-native';
-import { useState } from 'react';
+import React from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function LoginScreen({ navigation }) {
-  const [login, setLogin] = useState('');
-  const [senha, setSenha] = useState('');
-
   return (
-    <View style={{ flex:1, padding:20, justifyContent:'center' }}>
-      <Text>Login</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Login</Text>
 
-      <TextInput
-        placeholder="Login"
-        value={login}
-        onChangeText={setLogin}
-        style={{ borderWidth:1, marginBottom:10, padding:8 }}
-      />
+      <TextInput placeholder="Usuário" style={styles.input} />
+      <TextInput placeholder="Senha" secureTextEntry style={styles.input} />
 
-      <TextInput
-        placeholder="Senha"
-        value={senha}
-        onChangeText={setSenha}
-        secureTextEntry
-        style={{ borderWidth:1, marginBottom:10, padding:8 }}
-      />
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={() => navigation.replace('ListaContatos')}
+      >
+        <Text style={styles.buttonText}>Entrar</Text>
+      </TouchableOpacity>
 
-      <Button
-        title="Entrar"
-        onPress={() => navigation.navigate('ListaContatos')}
-      />
-
-      <Button
-        title="Cadastre-se"
-        onPress={() => navigation.navigate('CadastroUsuario')}
-      />
+      <TouchableOpacity onPress={() => navigation.navigate('CadastroUsuario')}>
+        <Text style={styles.link}>Criar Conta</Text>
+      </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F2F2F2',
+    justifyContent: 'center',
+    padding: 25,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 40,
+    color: '#3B6EDC',
+  },
+  input: {
+    backgroundColor: '#FFF',
+    padding: 15,
+    borderRadius: 12,
+    marginBottom: 15,
+  },
+  button: {
+    backgroundColor: '#3B6EDC',
+    padding: 15,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+  },
+  link: {
+    marginTop: 20,
+    textAlign: 'center',
+    color: '#3B6EDC',
+    fontWeight: 'bold',
+  },
+});
